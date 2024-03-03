@@ -1,3 +1,5 @@
+//Aplica um filtro no json puro, escolhendo apenas as informações específicas abaixo
+
 package br.com.alura.screenmatch.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
