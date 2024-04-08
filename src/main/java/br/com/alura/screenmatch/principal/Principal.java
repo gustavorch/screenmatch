@@ -2,16 +2,18 @@ package br.com.alura.screenmatch.principal;
 
 import br.com.alura.screenmatch.model.DadosSerie;
 import br.com.alura.screenmatch.model.DadosTemporada;
-import br.com.alura.screenmatch.model.Episodio;
+import br.com.alura.screenmatch.model.Serie;
+import br.com.alura.screenmatch.repository.SerieRepository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
 
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Principal {
 
@@ -21,6 +23,14 @@ public class Principal {
         private final String ENDERECO = "https://www.omdbapi.com/?t=";
         private final String API_KEY = "&apikey=6585022c";
         private List<DadosSerie> dadosSeries = new ArrayList<>();
+
+        // Injeção de dependência
+
+        private SerieRepository repositorio;
+
+        public Principal(SerieRepository repositorio) {
+                this.repositorio = repositorio;
+        }
 
         public void exibeMenu() {
                 var opcao = -1;
@@ -59,12 +69,14 @@ public class Principal {
 
         private void buscarSerieWeb() {
                 DadosSerie dados = getDadosSerie();
-                dadosSeries.add(dados);
+                // dadosSeries.add(dados);
+                Serie serie = new Serie(dados);
+                repositorio.save(serie);
                 System.out.println(dados);
         }
 
         private DadosSerie getDadosSerie() {
-                System.out.println("Digite o nome da série para busca");
+                System.out.println("Digite o nome da série para busca: ");
                 var nomeSerie = leitura.nextLine();
                 var json = consumo.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + API_KEY);
                 DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
@@ -86,6 +98,12 @@ public class Principal {
 
         // 04_04_2024
         private void ListarSeriesBuscadas() {
-                dadosSeries.forEach(System.out::println);
+                List<Serie> series = new ArrayList<>();
+                series = dadosSeries.stream()
+                                .map(d -> new Serie(d))
+                                .collect(Collectors.toList());
+                series.stream()
+                                .sorted(Comparator.comparing(Serie::getGenero))
+                                .forEach(System.out::println);
         }
 }
