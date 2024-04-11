@@ -29,6 +29,11 @@ public class Episodio {
     @ManyToOne // Vários episódios para uma série
     private Serie serie;
 
+    // Default constructor
+    public Episodio() {
+
+    }
+
     public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
         this.temporada = numeroTemporada;
         this.titulo = dadosEpisodio.titulo();
@@ -70,6 +75,8 @@ public class Episodio {
     public void setTemporada(Integer temporada) {
         this.temporada = temporada;
     }
+
+    
 
     public String getTitulo() {
         return titulo;

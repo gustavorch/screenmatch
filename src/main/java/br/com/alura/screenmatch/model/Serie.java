@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,9 +41,14 @@ public class Serie {
     private String sinopse;
     private String poster;
 
-    @OneToMany(mappedBy = "serie") // Uma série para vários episódios. "serie" foi definido em Episodio.java
+    // Uma série para vários episódios. "serie" foi definido em Episodio.java
+    // "CascadeType.ALL" será utilizado para armazenar os episódios no banco de dados
+    // "FetchType.EAGER" trará um modo de carregamento de dados diferente do padrão lazy
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     private List<Episodio> episodios = new ArrayList<>();
 
+    // Default constructor
     public Serie() {
     }
 
@@ -70,6 +77,7 @@ public class Serie {
     }
 
     public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e -> e.setSerie(this));
         this.episodios = episodios;
     }
 
@@ -132,12 +140,13 @@ public class Serie {
     @Override
     public String toString() {
         return "genero=" + genero +
-                ", titulo=" + titulo +
+                ", titulo=" + titulo + '\'' +
                 ", totalTemporadas=" + totalTemporadas +
                 ", avaliacao=" + avaliacao +
-                ", atores=" + atores +
-                ", sinopse=" + sinopse +
-                ", poster=" + poster;
+                ", atores=" + atores + '\'' +
+                ", sinopse=" + sinopse + '\'' +
+                ", poster=" + poster + '\'' +
+                ", episodios=" + episodios + '\'';
     }
 
 }
