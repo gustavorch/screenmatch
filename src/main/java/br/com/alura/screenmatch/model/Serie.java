@@ -61,7 +61,6 @@ public class Serie {
         this.poster = dadosSerie.poster();
         this.sinopse = dadosSerie.sinopse();
         // this.sinopse = ConsultaChatGPT.obterTraducao(dadosSerie.sinopse().trim());
-
     }
 
     public Long getId() {

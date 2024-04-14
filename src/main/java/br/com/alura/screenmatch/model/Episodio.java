@@ -76,8 +76,6 @@ public class Episodio {
         this.temporada = temporada;
     }
 
-    
-
     public String getTitulo() {
         return titulo;
     }
