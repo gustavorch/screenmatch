@@ -1,7 +1,7 @@
 # Screenmatch
  
-Catálogo de filmes e séries desenvolvido como projeto de aprendizado em Java com Spring Boot. Se trata de um sistema backend que oferece operações completas de CRUD para filmes e séries, integrando dados de uma API externa similar ao IMDb.
-Os dados são persistidos em um banco PostgreSQL com modelagem relacional, e a API segue os princípios REST. A integração com uma API externa enriquece o catálogo com informações detalhadas sobre as produções.
+Sistema backend desenvolvido como projeto de aprendizado em Java com Spring Boot que oferece operações completas de CRUD para filmes e séries, integrando dados de uma API externa similar ao IMDb.
+Os dados são persistidos em um banco PostgreSQL, e a API segue os princípios REST. A integração com uma API externa enriquece o catálogo com informações detalhadas sobre as obras.
  
 ---
  
